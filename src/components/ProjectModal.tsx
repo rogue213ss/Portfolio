@@ -153,15 +153,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </div>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                data-cursor="magnetic"
-                className="rounded-lg border border-obsidian-line px-4 py-2 text-sm text-graphite-bright transition-colors hover:border-signal/50 hover:text-signal-soft"
-              >
-                View on GitHub ↗
-              </a>
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="magnetic"
+                  className="rounded-lg border border-obsidian-line px-4 py-2 text-sm text-graphite-bright transition-colors hover:border-signal/50 hover:text-signal-soft"
+                >
+                  View on GitHub ↗
+                </a>
+              )}
               {project.liveUrl && project.liveUrl !== "#" && (
                 <a
                   href={project.liveUrl}

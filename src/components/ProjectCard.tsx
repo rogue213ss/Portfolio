@@ -49,9 +49,16 @@ export default function ProjectCard({ project, onOpen, large }: ProjectCardProps
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-signal/10 blur-3xl transition-opacity duration-300 group-hover:opacity-100 opacity-0" />
 
       <div className="relative flex items-start justify-between">
-        <span className="mono-label text-xs text-graphite-dim">
-          {project.number}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="mono-label text-xs text-graphite-dim">
+            {project.number}
+          </span>
+          {project.category === "client" && (
+            <span className="mono-label rounded-full border border-graphite/30 bg-graphite/10 px-2 py-0.5 text-[9px] text-graphite-bright">
+              CLIENT WORK
+            </span>
+          )}
+        </div>
         <span className="mono-label rounded-full border border-obsidian-line px-2.5 py-1 text-[10px] text-signal-soft">
           {project.statusLabel}
         </span>

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 import TechOrbit from "./TechOrbit";
-import { featuredProjects, otherProjects, type Project } from "../data/projects";
+import { featuredProjects, otherProjects, clientWorkProjects, type Project } from "../data/projects";
 
 export default function Projects() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
@@ -61,6 +61,29 @@ export default function Projects() {
         </div>
 
         <TechOrbit />
+
+        {clientWorkProjects.length > 0 && (
+          <div className="mt-20 border-t border-obsidian-line pt-16">
+            <p className="mono-label text-xs text-graphite-dim">CLIENT WORK</p>
+            <p className="prose-measure mt-3 text-graphite">
+              Work built for someone else's business, not my own products —
+              shown separately for that reason.
+            </p>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {clientWorkProjects.map((project, i) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                >
+                  <ProjectCard project={project} onOpen={setOpenProject} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
