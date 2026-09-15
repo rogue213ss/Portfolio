@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: #07090d;
+  color: #dfe4ec;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom cursor hides the system cursor only where supported (fine-pointer desktops) */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+::selection {
+  background: #3ea6ff;
+  color: #07090d;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #07090d;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c222d;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3444;
+}
+
+/* Visible keyboard focus, kept on every interactive element regardless of custom cursor */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #3ea6ff;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.bg-grid {
+  background-image: linear-gradient(rgba(62, 166, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 166, 255, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-noise {
+  position: relative;
+}
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.glass {
+  background: rgba(17, 21, 29, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(124, 135, 152, 0.16);
+}
+
+.text-glow {
+  text-shadow: 0 0 24px rgba(62, 166, 255, 0.35);
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(62, 166, 255, 0.035) 0px,
+    rgba(62, 166, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.mono-label {
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+/* Line-length discipline for long-form copy */
+.prose-measure {
+  max-width: 62ch;
+}
