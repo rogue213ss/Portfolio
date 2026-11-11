@@ -47,6 +47,15 @@ One placeholder still needs your input:
 
 The actual submission logic lives in `src/lib/submitContact.ts` if you ever want to swap Web3Forms for something else (Formspree, a real backend, etc.) — it returns `"success" | "not_configured" | "error"` and `ContactExperience.tsx` branches the final screen on that.
 
+## Flagship project (Luma) and screenshots
+
+`src/data/projects.ts` entries with `flagship: true` render as a full-width showcase (`FlagshipProject.tsx`) above the featured grid instead of a card. It reads everything from the data entry: `description`, `highlights`, `engineering`, `tech`, `gallery`, `liveUrl` / `liveLabel`, and `links`.
+
+- Images live in `public/assets/<project>/` and are referenced in data as `assets/<project>/<file>` (no leading slash).
+- **Gallery placeholders:** a `gallery` item without an `image` renders as a labelled "SCREENSHOT SLOT". To fill one (e.g. "Cinematic lyrics" or "Visual presets"), drop a `.webp`/`.png` in `public/assets/luma/` and add `image: { src, alt, width, height }` to that item.
+- Grid cards can show a `cover` image (used by Station Zero). The four story fields (`whatIsIt`, `whyBuilt`, `whatWasHard`, `whatLearned`) are optional; the detail modal skips any that are missing rather than showing filler.
+- Luma's Instagram link is in its `links` array.
+
 ## Structure
 
 ```

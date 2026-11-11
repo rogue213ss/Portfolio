@@ -5,6 +5,30 @@ export interface TechItem {
   status: TechStatus;
 }
 
+export interface ProjectImage {
+  /** Path relative to /public, e.g. "assets/luma/luma-app-home.webp" */
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+export interface ProjectLink {
+  label: string;
+  url: string;
+}
+
+export interface GalleryItem {
+  caption: string;
+  /** Omit `image` to render a clean placeholder slot until a screenshot exists. */
+  image?: ProjectImage;
+}
+
+export interface EngineeringArea {
+  label: string;
+  detail: string;
+}
+
 export interface Project {
   id: string;
   number: string;
@@ -17,10 +41,10 @@ export interface Project {
   // "client" = client work, rendered in its own distinct Client Work section.
   category?: "product" | "client";
   description: string;
-  whatIsIt: string;
-  whyBuilt: string;
-  whatWasHard: string;
-  whatLearned: string;
+  whatIsIt?: string;
+  whyBuilt?: string;
+  whatWasHard?: string;
+  whatLearned?: string;
   architecture?: string[]; // full pipeline diagram steps, shown in the expanded modal
   tech: TechItem[];
   routes?: string[]; // real API routes, technical annotation detail
@@ -32,6 +56,19 @@ export interface Project {
   terminalEvents?: string[]; // cycling terminal-style status lines for pipeline-style projects
   mediaRail?: boolean; // renders a mini content-rail mockup instead of a tech-tag preview
   accent: "primary" | "secondary";
+  // Optional presentation extras (all additive — existing projects don't use them).
+  /** Rendered as the full-width flagship showcase instead of a grid card. */
+  flagship?: boolean;
+  /** Cover image shown at the top of a grid card and in the detail modal. */
+  cover?: ProjectImage;
+  /** Extra outbound links beyond GitHub / live (e.g. Instagram). */
+  links?: ProjectLink[];
+  /** Short feature list for the flagship showcase. */
+  highlights?: string[];
+  /** Screenshot gallery for the flagship showcase. */
+  gallery?: GalleryItem[];
+  /** "What it demonstrates" breakdown for the flagship showcase. */
+  engineering?: EngineeringArea[];
 }
 
 const GITHUB_PROFILE = "https://github.com/rogue213ss";
@@ -364,8 +401,110 @@ export const projects: Project[] = [
     liveLabel: "Visit site ↗",
     accent: "secondary",
   },
+  {
+    id: "luma",
+    number: "10",
+    name: "LUMA",
+    tagline: "Windows Music Companion",
+    pipeline: ["CAPTURE", "ANALYZE", "VISUALIZE"],
+    statusLabel: "WINDOWS DESKTOP PRODUCT",
+    featured: true,
+    flagship: true,
+    description:
+      "A Windows desktop music companion and ambient visualizer that reacts to whatever is playing in real time, turning the current track into a cinematic, immersive visual experience. Independently designed, built and shipped as a real product.",
+    whatIsIt:
+      "Luma is a Windows desktop music companion and ambient music visualizer built to make listening to music more immersive. It reacts to music in real time, creating cinematic visual experiences around the currently playing track — with synchronized lyrics, album-art-driven color palettes and multiple visual presets.",
+    whyBuilt:
+      "To make listening to music on a PC more immersive — and to build and ship a complete, independently developed desktop product: native audio and media integration, a polished interface, a public website and licensing tiers.",
+    highlights: [
+      "Real-time audio-reactive visualizations",
+      "Spotify and Windows media playback integration",
+      "Dynamic color palettes drawn from album art",
+      "Synchronized lyrics with cinematic presentation modes",
+      "Multiple visual presets and customization controls",
+      "Immersive desktop listening experience",
+      "Audio processed locally — no cloud audio streaming",
+      "Lifetime and Exclusive licensing tiers",
+    ],
+    engineering: [
+      { label: "FRONTEND", detail: "React 18 + TypeScript interface" },
+      { label: "NATIVE / SYSTEMS", detail: "Tauri 2 shell, Rust, Windows GSMTC media integration" },
+      { label: "AUDIO", detail: "WASAPI loopback capture and FFT-based analysis" },
+      { label: "PRODUCT", detail: "Public website and Lifetime / Exclusive licensing tiers" },
+    ],
+    tech: [
+      { name: "Tauri 2", status: "built" },
+      { name: "React 18", status: "built" },
+      { name: "TypeScript", status: "built" },
+      { name: "Rust", status: "built" },
+      { name: "Windows GSMTC", status: "built" },
+      { name: "WASAPI loopback", status: "built" },
+      { name: "FFT audio analysis", status: "built" },
+    ],
+    gallery: [
+      {
+        caption: "Home — now playing",
+        image: {
+          src: "assets/luma/luma-app-home.webp",
+          alt: "Luma's home screen: a now-playing Spotify track with album art and playback controls over a full-window cinematic wallpaper, with a slim icon rail on the left.",
+          width: 1437,
+          height: 842,
+        },
+      },
+      {
+        caption: "Product website",
+        image: {
+          src: "assets/luma/luma-website.webp",
+          alt: "The Luma website hero: 'Don't just listen. Feel it.' with a Lifetime License call to action and Windows 10 and 11 support noted.",
+          width: 1395,
+          height: 733,
+        },
+      },
+      // Placeholder slots — add an `image` to any of these to turn it into a real screenshot.
+      { caption: "Cinematic lyrics" },
+      { caption: "Visual presets" },
+    ],
+    liveUrl: "https://lumaplayer.vercel.app/",
+    liveLabel: "Visit website",
+    links: [{ label: "Instagram — product demos", url: "https://www.instagram.com/luma.player/" }],
+    accent: "primary",
+  },
+  {
+    id: "station-zero",
+    number: "11",
+    name: "STATION ZERO",
+    tagline: "Learn C++. Save the station.",
+    pipeline: ["EXPLORE", "CODE", "RESTORE"],
+    statusLabel: "PLAYABLE IN BROWSER",
+    featured: false,
+    description:
+      "A 2D pixel-art sci-fi action-adventure that teaches C++. You wake on a damaged station whose AI, NOVA, answers to one language — every system comes back online when you write a working program in an in-game terminal.",
+    whatIsIt:
+      "A 2D pixel-art sci-fi action-adventure where the puzzles are C++ lessons. Players explore a dark station, write C++ at in-game terminals (with three levels of hints), and bring systems back online one task at a time — across a 20-task campaign with a codex, a log, a station map and boss fights.",
+    whyBuilt:
+      "To make learning C++ feel like playing a game instead of reading a textbook. It was also played by students during an introductory C++ session run as part of a university community-service project.",
+    whatWasHard:
+      "Shipping a full game as one self-contained HTML file — Canvas, JavaScript and CSS with sprites and audio embedded, no frameworks and no external requests.",
+    tech: [
+      { name: "HTML5 Canvas", status: "built" },
+      { name: "JavaScript", status: "built" },
+      { name: "CSS", status: "built" },
+      { name: "Single-file build, embedded assets", status: "built" },
+      { name: "Vercel", status: "built" },
+    ],
+    cover: {
+      src: "assets/station-zero/station-zero-gameplay.webp",
+      alt: "Station Zero gameplay: an astronaut engineer standing beside a glowing terminal in the COM-1 Operations Cabin, with the NOVA AI drone, a minimap and a dialogue box giving the first task.",
+      width: 1439,
+      height: 899,
+    },
+    liveUrl: "https://stationzerofin.vercel.app/",
+    liveLabel: "PLAY STATION ZERO →",
+    accent: "secondary",
+  },
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
+export const featuredProjects = projects.filter((p) => p.featured && !p.flagship);
+export const flagshipProjects = projects.filter((p) => p.flagship);
 export const otherProjects = projects.filter((p) => !p.featured && p.category !== "client");
 export const clientWorkProjects = projects.filter((p) => p.category === "client");

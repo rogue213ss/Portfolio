@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
+import FlagshipProject from "./FlagshipProject";
 import ProjectModal from "./ProjectModal";
 import TechOrbit from "./TechOrbit";
-import { featuredProjects, otherProjects, clientWorkProjects, type Project } from "../data/projects";
+import { featuredProjects, flagshipProjects, otherProjects, clientWorkProjects, type Project } from "../data/projects";
 
 export default function Projects() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
@@ -29,6 +30,18 @@ export default function Projects() {
         <p className="mono-label mt-14 mb-6 text-xs text-graphite-dim">
           FEATURED PROJECTS
         </p>
+        {flagshipProjects.map((project) => (
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="mb-6"
+          >
+            <FlagshipProject project={project} />
+          </motion.div>
+        ))}
         <div className="grid gap-6 md:grid-cols-2">
           {featuredProjects.map((project, i) => (
             <motion.div

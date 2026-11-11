@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import type { Project } from "../data/projects";
 import TerminalTicker from "./TerminalTicker";
 import MediaRail from "./MediaRail";
+import { assetUrl } from "../lib/assetUrl";
 
 const TECH_STYLES: Record<Project["tech"][number]["status"], string> = {
   built: "border-obsidian-line text-graphite-bright",
@@ -47,6 +48,20 @@ export default function ProjectCard({ project, onOpen, large }: ProjectCardProps
       className="glass group relative cursor-pointer overflow-hidden rounded-2xl p-6 transition-colors hover:border-signal/40 sm:p-8"
     >
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-signal/10 blur-3xl transition-opacity duration-300 group-hover:opacity-100 opacity-0" />
+
+      {project.cover && (
+        <div className="relative -mx-6 -mt-6 mb-6 overflow-hidden border-b border-obsidian-line sm:-mx-8 sm:-mt-8 sm:mb-8">
+          <img
+            src={assetUrl(project.cover.src)}
+            alt={project.cover.alt}
+            width={project.cover.width}
+            height={project.cover.height}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[16/9] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
+        </div>
+      )}
 
       <div className="relative flex items-start justify-between">
         <div className="flex items-center gap-2">

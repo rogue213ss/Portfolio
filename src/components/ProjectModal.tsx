@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import type { Project } from "../data/projects";
+import { assetUrl } from "../lib/assetUrl";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -71,9 +72,20 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.statusLabel}
             </span>
 
+            {project.cover && (
+              <img
+                src={assetUrl(project.cover.src)}
+                alt={project.cover.alt}
+                width={project.cover.width}
+                height={project.cover.height}
+                decoding="async"
+                className="mt-6 aspect-[16/9] w-full rounded-xl border border-obsidian-line object-cover"
+              />
+            )}
+
             {/* Four-question storytelling */}
             <div className="mt-8 space-y-6">
-              {QUESTIONS.map((q) => (
+              {QUESTIONS.filter((q) => project[q.key]).map((q) => (
                 <div key={q.label}>
                   <p className="mono-label text-xs text-graphite-dim">
                     {q.label}
@@ -175,6 +187,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {project.liveLabel ?? "Live demo ↗"}
                 </a>
               )}
+              {project.links?.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="magnetic"
+                  className="rounded-lg border border-obsidian-line px-4 py-2 text-sm text-graphite-bright transition-colors hover:border-signal/50 hover:text-signal-soft"
+                >
+                  {link.label} ↗
+                </a>
+              ))}
             </div>
           </motion.div>
         </motion.div>
